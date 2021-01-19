@@ -14,8 +14,10 @@ To achieve that, there are only 2 steps:
 1. Define your sudoku puzzle(s).
 2. Start sudoku solver and provide it with your sudoku puzzle(s).
 
+**NOTE:** This software is released as *Framework-Dependent* (with target framework being `netcoreapp3.0`), so **make sure you have .NET Core installed on your device**.
 
-## Defining a sudoku puzzle
+
+## Step 1: Defining a sudoku puzzle
 Each sudoku puzzle should be defined in its own text file (1 puzzle = 1 text file).
 The process is as simple as drawing a sudoku field using characters.
 
@@ -90,14 +92,15 @@ As you can see, defining a sudoku puzzle is a trivial task, however here are som
 And that's all! You have successfully defined a sudoku puzzle. Now, let's solve it!
 
 
-## Solving a sudoku puzzle
+## Step 2: Solving a sudoku puzzle
 Once you have your sudoku puzzle definition file(s), all you need to do is start the solver and provide it path(s) of the definition file(s).
 
-In general, this is the usage (from terminal): `SudokuSolver.exe path(s)`
+In general, this is the usage (from command line/terminal): `SudokuSolver path(s)`
 
-Solving a single puzzle: `SudokuSolver.exe Puzzles/4x4/Easy-1.txt`
-
-Solving multiple puzzles: `SudokuSolver.exe Puzzles/4x4/Easy-1.txt Puzzles/9x9/Hard-1.txt Puzzles/16x16/Easy-2.txt`
+| Operating system | Solving 1 puzzle                          | Solving 3 puzzles                                                                         |
+|:----------------:|:-----------------------------------------:|:-----------------------------------------------------------------------------------------:|
+| Windows          | `SudokuSolver.exe path/to/puzzle-1.txt`   | `SudokuSolver.exe path/to/puzzle-1.txt   path/to/puzzle-2.txt   path/to/puzzle-3.txt`     |
+| Linux            | `SudokuSolver     path/to/puzzle-1.txt`   | `SudokuSolver     path/to/puzzle-1.txt   path/to/puzzle-2.txt   path/to/puzzle-3.txt`     |
 
 
 ## Output
