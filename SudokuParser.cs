@@ -9,12 +9,16 @@ namespace SudokuSolver
     {
         private const string CommentSymbol = "#";
         private const string HorizontalDividerSymbol = "-";
+        private const char VerticalDividerSymbol = '|';
 
-        public static SudokuState Parse(string path)
+        private const char EmptyCellPlaceholder = '_';
+        private const char EmptyCellNumber = '0';
+
+        public static Sudoku Parse(string path)
         {
             var rowList = ConvertPuzzleFileToRowList(path);
             var field = ConvertRowListToSudokuField(rowList);
-            return new SudokuState(field);
+            return new Sudoku(field);
         }
 
         private static int[,] ConvertRowListToSudokuField(List<int[]> rowList)
@@ -23,11 +27,9 @@ namespace SudokuSolver
             var sudokuField = new int[dimension, dimension];
 
             for (var row = 0; row < dimension; row++)
+            for (var column = 0; column < dimension; column++)
             {
-                for (var column = 0; column < dimension; column++)
-                {
-                    sudokuField[row, column] = rowList[row][column];
-                }
+                sudokuField[row, column] = rowList[row][column];
             }
 
             return sudokuField;
@@ -66,8 +68,8 @@ namespace SudokuSolver
         }
 
         private static int[] ConvertLineToNumberArray(string line) => line
-            .Replace('_', '0')
-            .Replace('|', ' ')
+            .Replace(EmptyCellPlaceholder, EmptyCellNumber)
+            .Replace(VerticalDividerSymbol, ' ')
             .Split(new[] {' ', '\t'}, StringSplitOptions.RemoveEmptyEntries)
             .Select(int.Parse)
             .ToArray();

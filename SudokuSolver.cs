@@ -4,33 +4,33 @@ namespace SudokuSolver
 {
     public static class SudokuSolver
     {
-        public static (SudokuState solution, int functionCallCount, double elapsedTimeInMs) Solve(SudokuState initialState)
+        public static (Sudoku solution, int functionCallCount, double elapsedTimeInMs) Solve(Sudoku initial)
         {
-            if (!initialState.IsValid) return (null, 0, 0);
+            if (!SudokuValidator.Validate(initial)) return (null, 0, 0);
 
             var stopwatch = Stopwatch.StartNew();
             var functionCallCount = 0;
-            var solution = Solve(initialState, ref functionCallCount);
+            var solution = Solve(initial, ref functionCallCount);
 
             return (solution, functionCallCount, stopwatch.Elapsed.TotalMilliseconds);
         }
 
-        private static SudokuState Solve(SudokuState state, ref int functionCallCount)
+        private static Sudoku Solve(Sudoku sudoku, ref int functionCallCount)
         {
             functionCallCount++;
 
-            var (row, column) = state.FirstEmptyPosition;
-            if (row == -1) return state;
+            var (row, column) = SudokuInspector.FindFirstEmptyPosition(sudoku);
+            if (row == -1) return sudoku;
 
-            for (var number = 1; number <= state.FieldDimension; number++)
+            for (var number = 1; number <= sudoku.FieldDimension; number++)
             {
-                var isInputValid = state.CheckNumber(row, column, number);
-                if (!isInputValid) continue;
+                if (!sudoku.IsNumberValid(row, column, number)) continue;
 
-                var stateWithNumber = state.PutNumber(row, column, number);
-                var solution = Solve(stateWithNumber, ref functionCallCount);
+                sudoku.SetCell(row, column, number);
+                var solution = Solve(sudoku, ref functionCallCount);
 
                 if (solution != null) return solution;
+                sudoku.ResetCell(row, column);
             }
 
             return null;
