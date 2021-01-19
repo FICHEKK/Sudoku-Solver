@@ -14,14 +14,8 @@ namespace SudokuSolver
 
         public Sudoku(int[,] field)
         {
-            if (field.GetLength(0) != field.GetLength(1))
-                throw new ArgumentException("Could not create sudoku: Row dimension does not match column dimension.");
-
             FieldDimension = field.GetLength(0);
             BoxDimension = (int) Math.Sqrt(FieldDimension);
-
-            if (BoxDimension * BoxDimension != FieldDimension)
-                throw new ArgumentException("Sudoku field dimension must be a square number.");
 
             // Number of counting variables for each cell is 'field dimension + 1'.
             // Reason is simple: index 0 variable is ignored to achieve natural mapping.

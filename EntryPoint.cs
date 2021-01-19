@@ -22,10 +22,24 @@ namespace SudokuSolver
 
         private static void SolveSudokuAndDisplayResults(string sudokuPath)
         {
-            var initial = SudokuParser.Parse(sudokuPath);
+            PrintHeader(sudokuPath);
+
+            Sudoku initial;
+
+            try
+            {
+                initial = SudokuParser.Parse(sudokuPath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"Error: {e.Message}");
+                Console.WriteLine();
+                return;
+            }
+
             var maxDepth = SudokuInspector.CountEmptyCells(initial);
 
-            PrintHeader(sudokuPath);
             PrintSudoku(initial);
             Console.WriteLine($"Solving puzzle '{sudokuPath}'...");
 

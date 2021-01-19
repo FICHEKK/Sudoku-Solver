@@ -24,12 +24,29 @@ namespace SudokuSolver
         private static int[,] ConvertRowListToSudokuField(List<int[]> rowList)
         {
             var dimension = rowList.Count;
+            var boxDimension = (int) Math.Sqrt(dimension);
+
+            if (boxDimension * boxDimension != dimension)
+            {
+                throw new InvalidDataException("Sudoku field dimension must be a square number.");
+            }
+
             var sudokuField = new int[dimension, dimension];
 
             for (var row = 0; row < dimension; row++)
             for (var column = 0; column < dimension; column++)
             {
-                sudokuField[row, column] = rowList[row][column];
+                var number = rowList[row][column];
+
+                if (number >= 0 && number <= dimension)
+                {
+                    sudokuField[row, column] = rowList[row][column];
+                }
+                else
+                {
+                    throw new InvalidDataException($"Number {number} (row = {row + 1}, column = {column + 1}) not in range [0, {dimension}] " +
+                                                   $"which is required in a {dimension}x{dimension} sudoku field.");
+                }
             }
 
             return sudokuField;
@@ -53,7 +70,7 @@ namespace SudokuSolver
                 }
                 else if (row.Length != requiredRowLength)
                 {
-                    throw new InvalidDataException("All of the rows must be of the same length.");
+                    throw new InvalidDataException("Not all rows are of the same length.");
                 }
 
                 rowList.Add(row);
@@ -61,7 +78,7 @@ namespace SudokuSolver
 
             if (rowList.Count != requiredRowLength)
             {
-                throw new InvalidDataException("Field definition must be a square matrix.");
+                throw new InvalidDataException("Sudoku field does not have the same number of rows and columns.");
             }
 
             return rowList;
